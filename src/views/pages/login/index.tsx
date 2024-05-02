@@ -1,6 +1,7 @@
 // ** Next
 import { NextPage } from 'next'
 import Image from 'next/image'
+import Link from 'next/link'
 
 // ** MUI
 import {
@@ -9,30 +10,31 @@ import {
   Checkbox,
   CssBaseline,
   FormControlLabel,
-  Grid,
   IconButton,
   InputAdornment,
-  Link,
   Typography,
   useTheme
 } from '@mui/material'
 import CustomTextField from 'src/components/text-field'
 
 // **Form
-import { Controller, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import * as yup from 'yup'
-import { EMAIL_REG, PASSWORD_REG } from 'src/configs/regex'
-import { useState } from 'react'
 import { Icon } from '@iconify/react/dist/iconify.js'
+import { useState } from 'react'
+import { Controller, useForm } from 'react-hook-form'
+import { EMAIL_REG, PASSWORD_REG } from 'src/configs/regex'
+import * as yup from 'yup'
 
 // Public
+import LoginLight from '/public/images/login-light.png'
 import LoginDark from '/public/images/login-dark.png'
-import LoginLight from '/public/images/login-dark.png'
-import FacebookSvg from '/public/svgs/facebook.svg'
-import GoogleSvg from '/public/svgs/google.svg'
 
 type TProps = {}
+
+type TDefaultValue = {
+  email: string
+  password: string
+}
 
 const LoginPage: NextPage<TProps> = () => {
   // States
@@ -42,25 +44,25 @@ const LoginPage: NextPage<TProps> = () => {
   // Theme
   const theme = useTheme()
 
-  const schema = yup
-    .object({
-      email: yup.string().required('The field is required').matches(EMAIL_REG, 'The field must be email'),
-      password: yup
-        .string()
-        .required('The field is required')
-        .matches(PASSWORD_REG, 'The password must contain at least 8 chars, include special char, letter and number ')
-    })
-    .required()
+  const schema = yup.object({
+    email: yup.string().required('The field is required').matches(EMAIL_REG, 'The field must be email'),
+    password: yup
+      .string()
+      .required('The field is required')
+      .matches(PASSWORD_REG, 'The password must contain at least 8 chars, include special char, letter and number ')
+  })
+
+  const defaultValues: TDefaultValue = {
+    email: '',
+    password: ''
+  }
 
   const {
     handleSubmit,
     formState: { errors },
     control
   } = useForm({
-    defaultValues: {
-      email: '',
-      password: ''
-    },
+    defaultValues,
     mode: 'onBlur',
     resolver: yupResolver(schema)
   })
@@ -94,7 +96,11 @@ const LoginPage: NextPage<TProps> = () => {
           minWidth: '50vw'
         }}
       >
-        <Image src={LoginLight} alt='Login Image' style={{ height: 'auto', width: 'auto' }} />
+        <Image
+          src={theme.palette.mode === 'light' ? LoginLight : LoginDark}
+          alt='Login Image'
+          style={{ height: 'auto', width: 'auto' }}
+        />
       </Box>
       <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flex: 1 }}>
         <CssBaseline />
@@ -110,7 +116,7 @@ const LoginPage: NextPage<TProps> = () => {
             Sign in
           </Typography>
           <form onSubmit={handleSubmit(onSubmit)} autoComplete='off' noValidate>
-            <Box>
+            <Box sx={{ mt: 2, width: '300px' }}>
               <Controller
                 control={control}
                 rules={{
@@ -132,7 +138,7 @@ const LoginPage: NextPage<TProps> = () => {
               />
             </Box>
 
-            <Box sx={{ mt: 2 }}>
+            <Box sx={{ mt: 2, width: '300px' }}>
               <Controller
                 control={control}
                 rules={{
@@ -180,18 +186,14 @@ const LoginPage: NextPage<TProps> = () => {
                 }
                 label='Remember me'
               />
-              <Link href='#' variant='body2'>
-                Forgot password?
-              </Link>
+              <Typography>Forgot password?</Typography>
             </Box>
             <Button type='submit' fullWidth variant='contained' sx={{ mt: 3, mb: 2 }}>
               Sign In
             </Button>
             <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '4px' }}>
               <Typography>{"Don't have an account?"}</Typography>
-              <Link href='#' variant='body2'>
-                {' Sign Up'}
-              </Link>
+              <Link href='/register'>{' Sign Up'}</Link>
             </Box>
             <Typography sx={{ textAlign: 'center', mt: 2, mb: 2 }}>Or</Typography>
             <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px' }}>
