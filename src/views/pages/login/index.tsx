@@ -29,6 +29,9 @@ import * as yup from 'yup'
 import LoginLight from '/public/images/login-light.png'
 import LoginDark from '/public/images/login-dark.png'
 
+// Hook
+import { useAuth } from 'src/hooks/useAuth'
+
 type TProps = {}
 
 type TDefaultValue = {
@@ -40,6 +43,9 @@ const LoginPage: NextPage<TProps> = () => {
   // States
   const [showPassword, setShowPassword] = useState(false)
   const [isRemember, setIsRemember] = useState(false)
+
+  // Context
+  const { login } = useAuth()
 
   // Theme
   const theme = useTheme()
@@ -68,6 +74,9 @@ const LoginPage: NextPage<TProps> = () => {
   })
 
   const onSubmit = (data: { email: string; password: string }) => {
+    if (!Object.keys(errors).length) {
+      login({ ...data, rememberMe: isRemember })
+    }
     console.log({ data, errors })
   }
 
