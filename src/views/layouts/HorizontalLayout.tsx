@@ -37,9 +37,10 @@ const AppBar = styled(MuiAppBar, {
 type TProps = {
   open: boolean
   toggleDrawer: () => void
+  isHideMenu?: boolean
 }
 
-const HorizontalLayout: NextPage<TProps> = ({ open, toggleDrawer }) => {
+const HorizontalLayout: NextPage<TProps> = ({ open, toggleDrawer, isHideMenu }) => {
   return (
     <AppBar position='absolute' open={open}>
       <Toolbar
@@ -47,18 +48,20 @@ const HorizontalLayout: NextPage<TProps> = ({ open, toggleDrawer }) => {
           pr: '24px' // keep right padding when drawer closed
         }}
       >
-        <IconButton
-          edge='start'
-          color='inherit'
-          aria-label='open drawer'
-          onClick={toggleDrawer}
-          sx={{
-            marginRight: '36px',
-            ...(open && { display: 'none' })
-          }}
-        >
-          <IconifyIcon icon='ic:round-menu' />
-        </IconButton>
+        {isHideMenu && (
+          <IconButton
+            edge='start'
+            color='inherit'
+            aria-label='open drawer'
+            onClick={toggleDrawer}
+            sx={{
+              marginRight: '36px',
+              ...(open && { display: 'none' })
+            }}
+          >
+            <IconifyIcon icon='ic:round-menu' />
+          </IconButton>
+        )}
         <Typography component='h1' variant='h6' color='inherit' noWrap sx={{ flexGrow: 1 }}>
           Dashboard
         </Typography>
