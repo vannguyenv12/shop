@@ -1,9 +1,7 @@
 import { NextPage } from 'next'
-import * as React from 'react'
 
 // ** MUI
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar'
-import Badge from '@mui/material/Badge'
 import IconButton from '@mui/material/IconButton'
 import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'

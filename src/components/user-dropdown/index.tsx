@@ -1,22 +1,21 @@
 import React from 'react'
 
 // ** MUI
-import Box from '@mui/material/Box'
 import Avatar from '@mui/material/Avatar'
-import Menu from '@mui/material/Menu'
-import MenuItem from '@mui/material/MenuItem'
-import ListItemIcon from '@mui/material/ListItemIcon'
+import Box from '@mui/material/Box'
 import Divider from '@mui/material/Divider'
 import IconButton from '@mui/material/IconButton'
-import Typography from '@mui/material/Typography'
+import ListItemIcon from '@mui/material/ListItemIcon'
+import Menu from '@mui/material/Menu'
+import MenuItem from '@mui/material/MenuItem'
 import Tooltip from '@mui/material/Tooltip'
-import { useAuth } from 'src/hooks/useAuth'
 import Image from 'next/image'
+import { useAuth } from 'src/hooks/useAuth'
 import IconifyIcon from '../Icon'
 
-type TProps = {}
+// type TProps = {}
 
-export default function UserDropdown(props: TProps) {
+export default function UserDropdown() {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
   const open = Boolean(anchorEl)
 
