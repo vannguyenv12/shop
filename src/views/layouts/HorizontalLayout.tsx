@@ -8,6 +8,10 @@ import Typography from '@mui/material/Typography'
 import { styled } from '@mui/material/styles'
 import IconifyIcon from 'src/components/Icon'
 import UserDropdown from 'src/components/user-dropdown'
+import { useAuth } from 'src/hooks/useAuth'
+import { Button } from '@mui/material'
+import { useRouter } from 'next/router'
+import { ROUTE_CONFIG } from 'src/configs/route'
 
 const drawerWidth: number = 240
 
@@ -40,6 +44,9 @@ type TProps = {
 }
 
 const HorizontalLayout: NextPage<TProps> = ({ open, toggleDrawer, isHideMenu }) => {
+  const { user } = useAuth()
+  const router = useRouter()
+
   return (
     <AppBar position='absolute' open={open}>
       <Toolbar
@@ -64,7 +71,18 @@ const HorizontalLayout: NextPage<TProps> = ({ open, toggleDrawer, isHideMenu }) 
         <Typography component='h1' variant='h6' color='inherit' noWrap sx={{ flexGrow: 1 }}>
           Dashboard
         </Typography>
-        <UserDropdown />
+        {user ? (
+          <UserDropdown />
+        ) : (
+          <Button
+            type='submit'
+            variant='contained'
+            sx={{ width: 'auto' }}
+            onClick={() => router.push(ROUTE_CONFIG.LOGIN)}
+          >
+            Sign In
+          </Button>
+        )}
         {/* <IconButton color='inherit'>
           <Badge badgeContent={4} color='secondary'>
             <IconifyIcon icon='iconamoon:notification' />

@@ -3,13 +3,14 @@ import React from 'react'
 // ** MUI
 import Avatar from '@mui/material/Avatar'
 import Box from '@mui/material/Box'
-import Divider from '@mui/material/Divider'
 import IconButton from '@mui/material/IconButton'
 import ListItemIcon from '@mui/material/ListItemIcon'
 import Menu from '@mui/material/Menu'
 import MenuItem from '@mui/material/MenuItem'
 import Tooltip from '@mui/material/Tooltip'
 import Image from 'next/image'
+import { useRouter } from 'next/router'
+import { ROUTE_CONFIG } from 'src/configs/route'
 import { useAuth } from 'src/hooks/useAuth'
 import IconifyIcon from '../Icon'
 
@@ -21,11 +22,18 @@ export default function UserDropdown() {
 
   const { user, logout } = useAuth()
 
+  const router = useRouter()
+
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget)
   }
   const handleClose = () => {
     setAnchorEl(null)
+  }
+
+  const handleNavigationMyProfile = () => {
+    router.push(`/${ROUTE_CONFIG.MY_PROFILE}`)
+    handleClose()
   }
 
   return (
@@ -88,21 +96,10 @@ export default function UserDropdown() {
         <MenuItem onClick={handleClose}>
           {user?.email} {user?.middleName} {user?.lastName}
         </MenuItem>
-        <MenuItem onClick={handleClose}>
-          <Avatar /> Profile
+        <MenuItem onClick={handleNavigationMyProfile}>
+          <Avatar /> My Profile
         </MenuItem>
-        <MenuItem onClick={handleClose}>
-          <Avatar /> My account
-        </MenuItem>
-        <Divider />
-        <MenuItem onClick={handleClose}>
-          <ListItemIcon>{/* <PersonAdd fontSize='small' /> */}</ListItemIcon>
-          Add another account
-        </MenuItem>
-        <MenuItem onClick={handleClose}>
-          <ListItemIcon>{/* <Settings fontSize='small' /> */}</ListItemIcon>
-          Settings
-        </MenuItem>
+
         <MenuItem onClick={logout}>
           <ListItemIcon>{/* <Logout fontSize='small' /> */}</ListItemIcon>
           Logout
